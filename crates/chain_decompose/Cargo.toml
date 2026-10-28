@@ -1,0 +1,8 @@
+[package]
+name = "chain_decompose"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+nohash = "0.2.0"
+tangle_base = { version = "0.1.0", path = "../tangle_base" }

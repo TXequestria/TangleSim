@@ -1,0 +1,15 @@
+[workspace]
+members = ["crates/*"]
+
+[package]
+name = "tangle_sim"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "tangle_sim"
+
+[dependencies]
+chain_decompose = { version = "0.1.0", path = "crates/chain_decompose" }
+fastrand = "2.5.0"
+tangle_base = { version = "0.1.0", path = "crates/tangle_base" }
