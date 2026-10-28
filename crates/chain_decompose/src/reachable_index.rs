@@ -108,7 +108,6 @@ impl ReachableIndex {
             chain_pos,
         };
         self.insert_inner(node_pos);
-        self.assert_order();
     }
     #[inline]
     fn insert_inner(&mut self, node_pos: NodePos) {
@@ -196,6 +195,7 @@ impl ReachableIndex {
 
         self.index_list[index].chain_pos >= target_pos.chain_pos
     }
+    #[cfg(test)]
     pub(super) fn assert_order(&self) {
         let mut last = None;
         for node in self.index_list.iter() {

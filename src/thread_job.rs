@@ -21,17 +21,25 @@ fn assert_tangle_equal(base: &TangleBase, chain: &TangleChain) {
     }
 }
 
+use super::{MAX_BATCH_INSERT_COUNT,INSERTION_ROUNDS,MAX_OWN_WEIGHT};
+
+const _:() = const {
+    assert!(MAX_BATCH_INSERT_COUNT > 5,"MAX_BATCH_INSERT_COUNT must be greater than 5");
+    assert!(MAX_OWN_WEIGHT > 0,"MAX_OWN_WEIGHT must be non-zero");
+};
+
 pub(super) fn gen_tangle(rng: &mut Rng) {
     let mut base = TangleBase::default();
     let mut chain = TangleChain::default();
 
-    for _ in 0..300 {
+    for _ in 0..INSERTION_ROUNDS {
         let tips = base.tips();
         assert_eq!(tips, chain.tips());
         assert_tangle_equal(&base, &chain);
-        let weight = rng.u64(1..1024);
+        let weight = rng.u64(1..MAX_OWN_WEIGHT);
         let nodes_count = base.nodes_count();
-        for _ in 5..20 {
+        let insertion_count = rng.usize(5..MAX_BATCH_INSERT_COUNT);
+        for _ in 0..insertion_count {
             let approvees = select_two(&tips, nodes_count, rng);
             base.insert_node(weight, approvees).unwrap();
             chain.insert_node(weight, approvees).unwrap();
