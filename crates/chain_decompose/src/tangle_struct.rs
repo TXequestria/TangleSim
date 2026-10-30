@@ -37,6 +37,15 @@ impl Default for Tangle {
 
 impl Tangle {
     #[inline]
+    pub const fn chain_count(&self) -> usize {
+        self.chains.len()
+    }
+    #[inline]
+    pub fn average_chain_len(&self) -> f64 {
+        let total:f64 = self.chains.iter().map(|v| v.len() as f64).sum();
+        total / (self.chain_count() as f64)
+    }
+    #[inline]
     pub fn get_weight(&self, node_id: NodeId) -> Option<Weight> {
         self.nodes.get(node_id).map(|n| n.weight)
     }
